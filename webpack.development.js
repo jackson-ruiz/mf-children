@@ -4,8 +4,10 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 const commonConfig = require("./webpack.common");
 const { merge } = require("webpack-merge");
+const Dotenv = require("dotenv-webpack");
 
 const developmentConfig = {
+  mode: "development",
   devServer: {
     static: {
       directory: path.join(__dirname, "public"),
@@ -13,6 +15,7 @@ const developmentConfig = {
     port: 3001, // you can change the port
   },
   plugins: [
+    new Dotenv(),
     new HtmlWebpackPlugin({
       template: "src/index.html", // to import index.html file inside index.js
     }),

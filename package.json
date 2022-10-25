@@ -13,6 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "@testing-library/user-event": "^14.4.3",
+    "dotenv": "^16.0.3",
+    "dotenv-webpack": "^8.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "webpack-merge": "^5.8.0"
@@ -37,6 +39,9 @@
     "webpack-dev-server": "^4.11.1"
   },
   "jest": {
-    "testEnvironment": "jsdom"
+    "testEnvironment": "jsdom",
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest-setup.js"
+    ]
   }
 }

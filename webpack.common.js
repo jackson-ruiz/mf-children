@@ -1,6 +1,5 @@
 const commonConfig = {
   entry: "./src/index",
-  mode: "development",
   module: {
     rules: [
       {
