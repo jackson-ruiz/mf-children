@@ -1,42 +1,42 @@
-const path = require("path");
-const { dependencies } = require("./package.json");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
+const deps = require("./package.json").dependencies;
 const commonConfig = require("./webpack.common");
 const { merge } = require("webpack-merge");
 const Dotenv = require("dotenv-webpack");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const developmentConfig = {
-  mode: "development",
+  output: {
+    publicPath: "http://localhost:3001/",
+  },
   devServer: {
-    static: {
-      directory: path.join(__dirname, "public"),
-    },
-    port: 3001, // you can change the port
+    port: 3001,
+    historyApiFallback: true,
   },
   plugins: [
-    new Dotenv(),
     new HtmlWebpackPlugin({
-      template: "src/index.html", // to import index.html file inside index.js
+      template: "./src/index.html",
     }),
     new ModuleFederationPlugin({
-      name: "mfChildren",
+      name: "MfChildren",
       filename: "remoteEntry.js",
+      remotes: {},
       exposes: {
         "./SamplePage": "./src/pages/SamplePage.jsx",
       },
       shared: {
-        ...dependencies,
+        ...deps,
         react: {
           singleton: true,
-          requiredVersion: dependencies["react"],
+          requiredVersion: deps.react,
         },
         "react-dom": {
           singleton: true,
-          requiredVersion: dependencies["react-dom"],
+          requiredVersion: deps["react-dom"],
         },
       },
     }),
+    new Dotenv(),
   ],
 };
 
